@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const RootLayout = () => {
+const home = () => {
   return (
     <View>
-      <Text>RootLayout</Text>
+      <Text className='font-poppinsBold'>home</Text>
     </View>
   )
 }
 
-export default RootLayout
+export default home
