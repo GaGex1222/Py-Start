@@ -5,12 +5,18 @@ module.exports = {
     theme: {
       extend: {
         fontFamily: {
-            poppinsRegular: ['Poppins_400Regular', 'sans-serif'], // Regular weight
-            poppinsBold: ['Poppins_700Bold', 'sans-serif'], // Bold weight
-            poppinsLight: ['Poppins_300Light', 'sans-serif'], // Light weight
+          pthin: ["Poppins-Thin", "sans-serif"],
+          pextralight: ["Poppins-ExtraLight", "sans-serif"],
+          plight: ["Poppins-Light", "sans-serif"],
+          pregular: ["Poppins-Regular", "sans-serif"],
+          pmedium: ["Poppins-Medium", "sans-serif"],
+          psemibold: ["Poppins-SemiBold", "sans-serif"],
+          pbold: ["Poppins-Bold", "sans-serif"],
+          pextrabold: ["Poppins-ExtraBold", "sans-serif"],
+          pblack: ["Poppins-Black", "sans-serif"],
         },
         colors: {
-            primary: "#306998",
+            primary: "#3776AB",
             secondary: "#FFD43B",
             tertiary: "#282C34",
             success: "#2ECC71",

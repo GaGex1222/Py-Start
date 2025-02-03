@@ -4,6 +4,7 @@ import React from 'react'
 const courses = () => {
   return (
     <View>
+      
       <Text>courses</Text>
     </View>
   )
