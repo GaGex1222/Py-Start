@@ -2,6 +2,7 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { Link, Slot } from 'expo-router'
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from "@expo-google-fonts/poppins";
+
 const _layout = () => {
     const [fontsLoaded, error] = useFonts({
         "Poppins-Black": require("@/assets/fonts/Poppins-Black.ttf"),
@@ -14,12 +15,14 @@ const _layout = () => {
         "Poppins-SemiBold": require("@/assets/fonts/Poppins-SemiBold.ttf"),
         "Poppins-Thin": require("@/assets/fonts/Poppins-Thin.ttf"),
     });
+
     if(error){
         console.log(error)
         console.log("GG")
     }
+
   return (
-    <View className="bg-white h-full">
+    <View className=" bg-tertiary h-full">
         <Slot />
     </View>
   )
