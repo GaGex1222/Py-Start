@@ -26,6 +26,9 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="PyStart"/>
         <data android:scheme="com.anonymous.pystart"/>
+        <data android:scheme="com.anonymous.pystart"/>
+        <data android:scheme="com.anonymous.pystart"/>
+        <data android:scheme="exp+pystart"/>
       </intent-filter>
     </activity>
   </application>

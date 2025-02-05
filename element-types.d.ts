@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from "react-native";
+
 export type MotiElementProps = {
     className?: string;
     animationDelay: number
@@ -11,8 +13,10 @@ export type InfoSectionProps = {
 
 export type CustomButtonProps = {
     text: string
-    isLoading: boolean
-    textStyles: string
+    isLoading?: boolean
     handlePress: () => void
-    buttonStyles: string 
+    buttonStyles: string
+    animationDelay?: number
+    icon?: ImageSourcePropType
+    iconStyles?: string
 }

@@ -1,22 +1,24 @@
 {
   "expo": {
     "splash": {
-      "image": "./assets/images/logo.png",
+      "image": "./assets/images/logo-with-text.png",
       "resizeMode": "contain",
       "backgroundColor": "#F7F3D6"
     },
     "name": "PyStart",
+    "scheme": "com.anonymous.pystart",
     "slug": "pystart",
+    "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "PyStart",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "package": "com.anonymous.pystart"
+      "package": "com.anonymous.pystart",
+      "scheme": "com.anonymous.pystart"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +38,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "9dba01c9-c254-42d5-af3c-65c8a6c6bdd7"
+      }
     }
   }
 }
