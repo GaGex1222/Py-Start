@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import { Link, Slot } from 'expo-router'
+import { Slot, Stack } from 'expo-router'
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from "@expo-google-fonts/poppins";
 
 const _layout = () => {
@@ -23,7 +23,7 @@ const _layout = () => {
 
   return (
     <View className=" bg-tertiary h-full">
-        <Slot />
+      <Slot/>
     </View>
   )
 }

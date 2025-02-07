@@ -3,7 +3,7 @@
     "splash": {
       "image": "./assets/images/logo-with-text.png",
       "resizeMode": "contain",
-      "backgroundColor": "#F7F3D6"
+      "backgroundColor": "#F8F8F8"
     },
     "name": "PyStart",
     "scheme": "com.anonymous.pystart",
@@ -25,6 +25,7 @@
       "output": "static"
     },
     "plugins": [
+      "@react-native-google-signin/google-signin",
       "expo-router",
       [
         "expo-splash-screen",

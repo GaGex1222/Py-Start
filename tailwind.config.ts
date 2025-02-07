@@ -18,7 +18,7 @@ module.exports = {
         colors: {
             primary: "#4584b6",
             secondary: "#ffde57",
-            tertiary: "#F7F3D6",
+            tertiary: "#F8F8F8",
             success: "#2ECC71",
             error: "#E74C3C",
             info: "#4B8BBE"

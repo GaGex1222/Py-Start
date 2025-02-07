@@ -1,77 +1,31 @@
-import { SafeAreaView } from 'react-native'
-import React, { useEffect } from 'react'
-import { Image } from 'react-native'
-import { MotiViewConfigured } from '@/components/MotiElementsConfigured'
-import icons from '@/constants/icons'
-import CustomButton from '@/components/CustomButton'
-import { useState } from 'react'
-import {
-    GoogleSignin,
-    GoogleSigninButton,
-    isCancelledResponse,
-    isErrorWithCode,
-    isSuccessResponse,
-    statusCodes,
-  } from '@react-native-google-signin/google-signin';
+import { MotiTextConfigured, MotiViewConfigured } from "@/components/MotiElementsConfigured";
+import React, { useEffect, useState } from "react";
+import { Button, Text, View, Image, TextInput } from "react-native";
+import icons from "@/constants/icons";
+import CustomButton from "@/components/CustomButton";
+import InputField from "@/components/InputField";
+import { Link } from "expo-router";
+export default function Login() {
+  const [password ,setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
+  return (
+    <>
+      <MotiViewConfigured animationDelay={0} className="flex justify-center items-center flex-col">
+        <Image source={icons.logoWithText} className="w-80 h-80"/>
+        <MotiViewConfigured animationDelay={200}>
+          <InputField label="Email" onTextChange={setEmail} animationDelay={200}/>
 
-
-const Login = () => {
-    const [userInfo, setUserinfo] = useState();
-    GoogleSignin.configure({
-        scopes: ['https://www.googleapis.com/auth/drive.readonly'], 
-        offlineAccess: true, 
-      });
-
-    const signIn = async () => {
-        try {
-          await GoogleSignin.hasPlayServices();
-          const response = await GoogleSignin.signIn();
-          if (isSuccessResponse(response)) {
-            setUserinfo({ userInfo: response.data });
-          } else {
-            // sign in was cancelled by user
-          }
-        } catch (error) {
-          if (isErrorWithCode(error)) {
-            switch (error.code) {
-              case statusCodes.IN_PROGRESS:
-                // operation (eg. sign in) already in progress
-                break;
-              case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-                // Android only, play services not available or outdated
-                break;
-              default:
-              // some other error happened
-            }
-          } else {
-            // an error that's not related to google sign in occurred
-          }
-        }
-      };
-
-
-    async function getUserInfo(token: string | undefined){
-        try{
-            const response = await fetch('https://www.googleapis.com/userinfo/v2/me', {
-                headers: {Authorization: `Bearer ${token}`}
-            })
-            const user = await response.json()
-            setUserinfo(user)
-        } catch(exc){
-            console.error("Error getting user info with access token", exc)
-        }
-    } //here frontend start so i cut it
-    return (
-        <SafeAreaView>
-            <MotiViewConfigured animationDelay={0} className='flex justify-center items-center'>
-                <Image source={icons.logoWithText} className='h-80 w-80'/>
-                <MotiViewConfigured animationDelay={150}>
-                    <CustomButton handlePress={() => signIn()} text='Sign in with google' icon={icons.googleLogo} iconStyles='w-6 h-6 ml-2' buttonStyles='mt-24 p-6'/>
-                </MotiViewConfigured>
-            </MotiViewConfigured>
-        </SafeAreaView>
-    )
+          <InputField label="Password" onTextChange={setPassword} isPassword={true} animationDelay={400}/>
+        </MotiViewConfigured>
+        <MotiViewConfigured animationDelay={500} className="flex flex-row">
+          <MotiTextConfigured animationDelay={600} className="text-sm mt-2 text-primary font-pbold">Dont have an account?  </MotiTextConfigured>
+          <MotiTextConfigured animationDelay={700} className="text-sm mt-2 underline-offset-3 underline text-secondary font-pbold"><Link href={'/signUp'}>Sign Up</Link></MotiTextConfigured>
+        </MotiViewConfigured>
+        <MotiViewConfigured animationDelay={800}>
+          <CustomButton buttonStyles="mt-20 rounded-full w-80"  text="Sign in"/>
+        </MotiViewConfigured>
+      </MotiViewConfigured>
+    </>
+  );
 }
-
-export default Login

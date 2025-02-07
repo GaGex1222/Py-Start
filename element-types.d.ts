@@ -16,7 +16,13 @@ export type CustomButtonProps = {
     isLoading?: boolean
     handlePress: () => void
     buttonStyles: string
-    animationDelay?: number
     icon?: ImageSourcePropType
     iconStyles?: string
+}
+
+export type InputFieldProps = {
+    animationDelay: number
+    onTextChange: React.Dispatch<React.SetStateAction<string>>;
+    isPassword?: boolean
+    label: string
 }

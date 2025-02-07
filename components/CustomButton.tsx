@@ -10,7 +10,6 @@ const CustomButton: React.FC<CustomButtonProps> = ({buttonStyles, text, handlePr
         <Text className="text-primary text-lg font-pbold">{text}</Text>
         {icon && <Image source={icon} className={iconStyles} />}
       </View>
-
     </TouchableOpacity>
   )
 }
