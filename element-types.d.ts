@@ -16,8 +16,7 @@ export type CustomButtonProps = {
     isLoading?: boolean
     handlePress: () => void
     buttonStyles: string
-    icon?: ImageSourcePropType
-    iconStyles?: string
+    Icon?: ReactElement
 }
 
 export type InputFieldProps = {

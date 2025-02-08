@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import * as SplashScreen from "expo-splash-screen"
 import CustomButton from '@/components/CustomButton';
+import { ArrowIcon } from '@/components/icons/Arrow';
 
 SplashScreen.preventAutoHideAsync()
 
@@ -46,7 +47,7 @@ export default function WelcomeScreen() {
               <InfoSection animationDelay={750} text="Unlock the power of Python in just a few weeks!" />
             </View>
             <MotiViewConfigured animationDelay={900}>
-              <CustomButton text='Get Started' buttonStyles='mt-6' isLoading={isLoading} handlePress={() => router.replace('/login')}/>
+              <CustomButton text='Get Started' Icon={ArrowIcon} buttonStyles='mt-6' isLoading={isLoading} handlePress={() => router.replace('/login')}/>
             </MotiViewConfigured>
           </View>
       </ScrollView>

@@ -6,6 +6,7 @@ import hacker from '@/assets/images/hacker.png';
 import logo from "@/assets/images/logo.png"
 import logoWithText from "@/assets/images/logo-with-text.png"
 import googleLogo from "@/assets/images/google-logo.png"
+import rightArrow from "@/assets/images/right-arrow.png"
 const icons = {
   profile,
   home,
@@ -13,7 +14,8 @@ const icons = {
   hacker,
   logo,
   logoWithText,
-  googleLogo
+  googleLogo,
+  rightArrow
 };
 
 export default icons;

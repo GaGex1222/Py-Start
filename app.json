@@ -25,17 +25,14 @@
       "output": "static"
     },
     "plugins": [
-      "@react-native-google-signin/google-signin",
-      "expo-router",
       [
-        "expo-splash-screen",
+        "expo-build-properties",
         {
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "android": {
+            "usesCleartextTraffic": true
+          }
         }
-      ],
-      "expo-font"
+      ]
     ],
     "experiments": {
       "typedRoutes": true

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "190681663488",
+    "project_id": "py-start-44146",
+    "storage_bucket": "py-start-44146.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190681663488:android:b05926ac9acf05fef3f0e5",
+        "android_client_info": {
+          "package_name": "com.anonymous.pystart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJwy01FTgzdFHgJm18SllsjJVRwRelb9I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
