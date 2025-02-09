@@ -1,10 +1,12 @@
-import { checkUserExistence } from "./fireBaseFunctions";
+import { checkUserExistence } from "./authFunctions";
+import bcryptjs from "bcryptjs"
+
 function validateEmail(email: string): boolean {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return regex.test(email);
 }
 
-export function validateSignUp(email: string, password: string, username: string){
+export function validateSignUpForm(email: string, password: string, username: string){
     if (!email || !username || !password) {
         return "All fields required!"
     }
@@ -22,4 +24,8 @@ export function validateSignUp(email: string, password: string, username: string
     }
 
     return ''
+}
+
+export function comparePasswords(plainPassword: string, hashedPassword: string){
+    return bcryptjs.compareSync(plainPassword, hashedPassword);
 }

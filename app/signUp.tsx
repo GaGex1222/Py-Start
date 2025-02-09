@@ -3,33 +3,35 @@ import {
   MotiViewConfigured,
 } from "@/components/MotiElementsConfigured";
 import React, { useEffect, useState } from "react";
-import { Button, Text, View, Image, TextInput } from "react-native";
+import { Text, Image } from "react-native";
 import icons from "@/constants/icons";
 import CustomButton from "@/components/CustomButton";
 import { Link } from "expo-router";
 import InputField from "@/components/InputField";
-import { addUser } from "@/utils/fireBaseFunctions";
-import { validateSignUp } from "@/utils/validationFunctionsl";
+import { validateSignUpForm } from "@/utils/validationFunctionsl";
+import * as SecureStore from "expo-secure-store"
+import { useRouter } from "expo-router";
+
 export default function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
   const [formError, setFormError] = useState("");
-
+  const [loginSuccess, setLoginSuccess] = useState(true);
+  const router = useRouter();
   useEffect(() => {
-    if(formError.length > 0){
+    if (formError.length > 0) {
       setTimeout(() => {
-        setFormError('')
-      }, 5000)
+        setFormError("");
+      }, 5000);
     }
-  }, [formError])
+  }, [formError]);
 
   const handleFormSubmit = async () => {
-    console.log("HI");
     setButtonLoading(true);
-    const errorMessage = validateSignUp(email, password, username);
-    console.log(errorMessage);
+    const errorMessage = validateSignUpForm(email, password, username);
+    
     if (errorMessage) {
       setFormError(errorMessage);
       setButtonLoading(false);
@@ -43,28 +45,37 @@ export default function SignUp() {
         password: password,
       };
 
-      const res = await fetch(`http://${process.env.EXPO_PUBLIC_PUBLIC_IP}:3000/add-user`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
+      const res = await fetch(
+        `http://${process.env.EXPO_PUBLIC_PUBLIC_IP}:3000/add-user`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        }
+      );
 
       const data = await res.json();
-      console.log(data)
-      if(data.errorMessage){
-        setFormError(data.errorMessage)
-        return
+      console.log(data);
+      if (data.errorMessage) {
+        setFormError(data.errorMessage);
+        setButtonLoading(false);
+        return;
       }
+      
       if (!data.error) {
-        console.log("Success")
+        console.log("Success");
+        await SecureStore.setItemAsync('userToken', JSON.stringify(data.token))
+        await SecureStore.setItemAsync('userData', JSON.stringify(data.userData))
+        router.push('/(tabs)/home')
       }
+
     } catch (exp) {
       console.log(exp);
-    } finally {
-      setButtonLoading(false);
     }
+
+    setButtonLoading(false);
   };
   return (
     <>

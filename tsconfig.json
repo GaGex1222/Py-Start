@@ -12,8 +12,12 @@
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts",
+    "types/expo-env.d.ts",
     "babel.config.js",
-    "nativewind-env.d.ts"
-, "constants/icons.js", "utils/fireBaseFunctions.ts"  ]
+    "types/nativewind-env.d.ts",
+    "constants/icons.js",
+    "utils/authFunctions.ts",
+    "nativewind-env.d.ts",
+    "expo-env.d.ts"
+  ]
 }
