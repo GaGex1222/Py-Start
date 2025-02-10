@@ -3,6 +3,7 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { View, Image, Text } from 'react-native';
 import icons from '@/constants/icons';
+import { useFonts } from '@expo-google-fonts/poppins';
 import { ImageSourcePropType } from 'react-native';
 import "@/global.css"
 
@@ -11,7 +12,7 @@ const TabIcon = ({ icon, color, focused, name }: { icon: ImageSourcePropType; co
     <View className="items-center justify-center w-20 mt-3"> 
       <Image source={icon} tintColor={color} className='w-6 h-6' resizeMode='contain' />
       <Text
-        className={`${focused ? 'font-poppinsBold' : 'font-poppinsRegular'} text-xs`}
+        className={`${focused ? 'font-pbold' : 'font-pmedium'} text-xs`}
         style={{ color: color }}
         numberOfLines={1}
       >
@@ -22,6 +23,7 @@ const TabIcon = ({ icon, color, focused, name }: { icon: ImageSourcePropType; co
 };
 
 const TabsLayout = () => {
+
   return (
     <Tabs
       screenOptions={{

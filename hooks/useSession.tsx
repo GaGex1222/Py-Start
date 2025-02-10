@@ -6,24 +6,26 @@ const useSession = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
 
+  const checkAuthentication = async () => {
+    const token = await SecureStore.getItemAsync('userToken');
+    console.log(token)
+    if (token) {
+      const userDataString = await SecureStore.getItemAsync('userData')
+      const userData: UserData = JSON.parse(userDataString as string)
+      setIsAuthenticated(true);
+      setUserData(userData);
+    } else {
+      setIsAuthenticated(false);
+      setUserData(null); 
+    }
+  };
+  
   useEffect(() => {
-    const checkAuthentication = async () => {
-      const token = await SecureStore.getItemAsync('userToken');
-      if (token) {
-        const userDataString = await SecureStore.getItemAsync('userData')
-        const userData: UserData = JSON.parse(userDataString as string)
-        setIsAuthenticated(true);
-        setUserData(userData);
-      } else {
-        setIsAuthenticated(false);
-        setUserData(null); 
-      }
-    };
-
     checkAuthentication();
+
   }, []); 
 
-  return { isAuthenticated, userData };
+  return { isAuthenticated, userData, checkAuthentication };
 };
 
 export default useSession;

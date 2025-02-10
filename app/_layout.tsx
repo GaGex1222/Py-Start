@@ -17,8 +17,7 @@ const _layout = () => {
     });
 
     if(error){
-        console.log(error)
-        console.log("GG")
+        console.log("Error loading fonts", error)
     }
 
   return (
