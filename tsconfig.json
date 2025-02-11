@@ -15,7 +15,7 @@
     "types/expo-env.d.ts",
     "babel.config.js",
     "types/nativewind-env.d.ts",
-    "constants/icons.js",
+    "constants/icons.ts",
     "utils/authFunctions.ts",
     "nativewind-env.d.ts",
     "expo-env.d.ts"
