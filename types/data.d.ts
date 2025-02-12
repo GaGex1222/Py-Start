@@ -1,31 +1,31 @@
 import { ImageSourcePropType } from "react-native";
 
+type Setter<T> = React.Dispatch<React.SetStateAction<T>>;
+
 export type UserData = {
     email: string;
     username: string
 }
 
-export type iconTypes = {
-    profile: ImageSourcePropType;
-    home: ImageSourcePropType;
-    courses: ImageSourcePropType;
-    hacker: ImageSourcePropType;
-    logo: ImageSourcePropType;
-    logoWithText: ImageSourcePropType;
-    googleLogo: ImageSourcePropType;
-    rightArrow: ImageSourcePropType;
-    pythonLogo: ImageSourcePropType;
-    functions: ImageSourcePropType;
-    variables: ImageSourcePropType;
-    dictionaries: ImageSourcePropType;
-    loops: ImageSourcePropType;
-    inputs: ImageSourcePropType;
-    arrays: ImageSourcePropType;
-    libraries: ImageSourcePropType;
+export type informationPageData = {
+    infoParagraph: string
+    title: string
+    image: ImageSourcePropType
 }
 
-export type coursesData = {
+export type questionPageData = {
+    title: string
+    image: ImageSourcePropType
+    options: [string, string, string, string]
+    correctAnswerIndex: number
+}
+
+
+export type CourseData = {
     title: string;
     description: string;
+    topicIcon: ImageSourcePropType
+    informationPages: informationPageData[]
+    questionPages: questionPageData[]
 };
   

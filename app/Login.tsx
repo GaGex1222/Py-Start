@@ -4,7 +4,7 @@ import {
 } from "@/components/MotiElementsConfigured";
 import React, { useEffect, useState } from "react";
 import { Button, Text, View, Image, TextInput } from "react-native";
-import icons from "@/constants/icons";
+import {images} from "@/constants/icons";
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import { Link } from "expo-router";
@@ -20,7 +20,7 @@ export default function Login() {
         animationDelay={0}
         className="flex justify-center items-center flex-col"
       >
-        <Image source={icons.logoWithText} className="w-80 h-80" />
+        <Image source={images.logoWithText} className="w-80 h-80" />
         <MotiViewConfigured animationDelay={200}>
           <InputField
             label="Email"

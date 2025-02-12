@@ -1,8 +1,8 @@
-import {iconTypes} from "@/types/data"
 
 
 
-const icons: iconTypes = {
+
+export const images = {
   profile: require('@/assets/images/profile.png'),
   home: require('@/assets/images/home.png'),
   courses: require('@/assets/images/courses.png'),
@@ -12,6 +12,9 @@ const icons: iconTypes = {
   googleLogo: require('@/assets/images/google-logo.png'),
   rightArrow: require('@/assets/images/right-arrow.png'),
   pythonLogo: require('@/assets/images/python-logo.png'),
+};
+
+export const icons = {
   functions: require('@/assets/images/functions.png'),
   variables: require('@/assets/images/variables.png'),
   dictionaries: require('@/assets/images/dictionaries.png'),
@@ -19,6 +22,5 @@ const icons: iconTypes = {
   inputs: require('@/assets/images/inputs.png'),
   arrays: require('@/assets/images/arrays.png'),
   libraries: require('@/assets/images/libraries.png'),
-};
+}
 
-export default icons;

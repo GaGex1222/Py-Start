@@ -15,7 +15,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
     <TouchableOpacity
       disabled={isLoading}
       onPress={handlePress}
-      className={`px-6 py-3 bg-secondary rounded-xl shadow-md h-15 ${
+      style={{minHeight: 45}}
+      className={`px-6 py-3 bg-secondary rounded-xl shadow-md ${
         isLoading && "opacity-50"
       } ${buttonStyles}`}
     >
