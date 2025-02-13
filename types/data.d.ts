@@ -15,7 +15,7 @@ export type informationPageData = {
 
 export type questionPageData = {
     title: string
-    image: ImageSourcePropType
+    image: ImageSourcePropType | undefined
     options: [string, string, string, string]
     correctAnswerIndex: number
 }

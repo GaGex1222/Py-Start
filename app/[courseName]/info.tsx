@@ -1,34 +1,30 @@
 import { View, Image, ScrollView } from 'react-native'
 import React, { Dispatch, SetStateAction, useState } from 'react'
-import BackButton from '../BackButton'
+import BackButton from '@/components/BackButton'
 import { CourseData, Setter } from '@/types/data'
-import { MotiTextConfigured, MotiViewConfigured } from '../MotiElementsConfigured'
+import { MotiViewConfigured, MotiTextConfigured } from '@/components/MotiElementsConfigured'
 import { images } from '@/constants/icons'
-import { RightArrowIcon } from '../icons/Arrow'
-import CustomButton from '../CustomButton'
-import { useRouter } from 'expo-router'
-type InformationPageProps = {
-  course: CourseData | undefined
-  setShowInfoPages: Setter<boolean>;
-  setShowQuestionPages: Setter<boolean>;
-}
+import { RightArrowIcon } from '@/components/icons/Arrow'
+import CustomButton from '@/components/CustomButton'
+import { useLocalSearchParams, useRouter } from 'expo-router'
+import { coursesData } from '@/courseData'
 
-const InformationPage: React.FC<InformationPageProps> = ({course, setShowInfoPages, setShowQuestionPages}) => {
+const InformationPage = () => {
+    const {courseName}: {courseName: string}= useLocalSearchParams();
     const [pageIndex, setPageIndex] = useState(0);
     const router = useRouter()
-
+    const course = coursesData.find(course => course.title == courseName)
     const handleBackButton = () => {
       if (pageIndex > 0){
         setPageIndex(pageIndex - 1)
       } else {
-        router.push({pathname: "/courseDetails/[courseName]", params: {courseName: course?.title as string}})
+        router.push({pathname: `/[courseName]`, params: {courseName}})
       }
     }
 
     const handleNextButton = () => {
       if (pageIndex + 1 == course?.informationPages.length){
-        setShowInfoPages(false)
-        setShowQuestionPages(true)
+        router.push({pathname: `/[courseName]/question`, params: { courseName }})
       } else {
         console.log("GSGSGG")
         setPageIndex(pageIndex + 1)

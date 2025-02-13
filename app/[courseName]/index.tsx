@@ -1,25 +1,19 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import * as Progress from "react-native-progress";
+import { View, Text, Image } from "react-native";
 import {images} from "@/constants/icons";
 import { RightArrowIcon } from "@/components/icons/Arrow";
 import CustomButton from "@/components/CustomButton";
-import {
-  MotiTextConfigured,
-  MotiViewConfigured,
-} from "@/components/MotiElementsConfigured";
+import {MotiTextConfigured, MotiViewConfigured} from "@/components/MotiElementsConfigured";
 import BackButton from "@/components/BackButton";
-import { CourseData, Setter } from "@/types/data";
+import { CourseData } from "@/types/data";
+import { coursesData } from "@/courseData";
 
-type CourseMainPageProps = {
-    courseName: string
-    courseData: CourseData | undefined
-    setShowInfoPages: Setter<boolean>;
-}
+export default function CourseMainPage(){
+    const {courseName}: {courseName: string} = useLocalSearchParams();
+    const course: CourseData | undefined = coursesData.find(course => course.title === courseName);
 
-export const CourseMainPage: React.FC<CourseMainPageProps> = ({courseName, courseData, setShowInfoPages}) => {
     const router = useRouter()
-    if (!courseData) {
+    if (!course) {
         return (
         <View className="flex-1 items-center justify-center">
             <Text className="text-xl font-bold text-red-500">Course not found</Text>
@@ -46,7 +40,7 @@ export const CourseMainPage: React.FC<CourseMainPageProps> = ({courseName, cours
             animationDelay={200}
             className="text-lg font-pmedium text-gray-700 mb-6 leading-relaxed text-center"
             >
-            {courseData.description}
+            {course.description}
             </MotiTextConfigured>
 
             <MotiViewConfigured
@@ -56,7 +50,7 @@ export const CourseMainPage: React.FC<CourseMainPageProps> = ({courseName, cours
             <CustomButton
                 text="Get Started"
                 Icon={RightArrowIcon}
-                handlePress={() => setShowInfoPages(true)}
+                handlePress={() => router.push({pathname: `/[courseName]/info`, params: {courseName}})}
                 buttonStyles="py-3 px-6"
             />
             </MotiViewConfigured>

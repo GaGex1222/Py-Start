@@ -65,9 +65,9 @@ export default function CoursesPage() {
         <View className="h-[73%] bg-white rounded-t-3xl p-5 shadow-lg -mt-5">
           <ScrollView showsVerticalScrollIndicator={false}>
             {coursesData.map(
-              (item: CourseData, index: number) =>
+              (course: CourseData, index: number) =>
                 (courseSearch === "" ||
-                  item.title
+                  course.title
                     .toLowerCase()
                     .includes(courseSearch.toLowerCase())) && (
                   <MotiViewConfigured
@@ -77,20 +77,17 @@ export default function CoursesPage() {
                   >
                     <Image
                       source={
-                        item.topicIcon
+                        course.topicIcon
                       }
                       className="w-10 h-10"
                     />
 
                     <View className="ml-3 flex-1">
                       <Link
-                        href={{
-                          pathname: "/courseDetails/[courseName]",
-                          params: { courseName: item.title },
-                        }}
+                        href={`/${course.title}`}
                       >
                         <Text className="text-lg text-primary font-pbold">
-                          {item.title}
+                          {course.title}
                         </Text>
                         <Progress.Bar
                           progress={0.5}
