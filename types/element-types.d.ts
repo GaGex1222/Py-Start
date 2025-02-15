@@ -15,7 +15,7 @@ export type CustomButtonProps = {
     text: string
     isLoading?: boolean
     handlePress: () => void
-    buttonStyles: string
+    buttonStyles?: string
     Icon?: ReactElement
 }
 
