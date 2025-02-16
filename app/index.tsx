@@ -1,43 +1,33 @@
 import React, { useEffect, useState } from "react";
 import {images} from "@/constants/icons";
-import { SvgUri } from "react-native-svg";
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { MotiText, ScrollView } from "moti";
+import { View, Image } from "react-native";
+import { ScrollView } from "moti";
 import {
   MotiTextConfigured,
   MotiViewConfigured,
 } from "@/components/MotiElementsConfigured";
 import InfoSection from "@/components/infoSection";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Redirect, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import CustomButton from "@/components/CustomButton";
 import { RightArrowIcon } from "@/components/icons/Arrow";
-import useSession from "@/hooks/useSession";
-import * as SecureStore from "expo-secure-store";
+import { checkFirstTime } from "@/utils/asyncStorageFunctions";
 SplashScreen.preventAutoHideAsync();
 
 export default function WelcomeScreen() {
   const [isLoading, setIsLoading] = useState(true);
-  const { isAuthenticated } = useSession();
   const router = useRouter();
   useEffect(() => {
     async function prepare() {
-      console.log(SecureStore.getItemAsync("userToken"));
       setTimeout(async () => {
         await SplashScreen.hideAsync();
         setIsLoading(false);
       }, 2000);
+      checkFirstTime()
     }
     prepare();
   }, []);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      console.log("HE IS AUTHRENTICeD");
-      router.push("/(tabs)/home");
-    }
-  }, [isAuthenticated]);
 
   if (!isLoading) {
     return (

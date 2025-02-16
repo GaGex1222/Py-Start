@@ -1,6 +1,6 @@
 import { View, Text, Image, Pressable, Animated } from 'react-native'
 import { MotiViewConfigured, MotiTextConfigured } from '@/components/MotiElementsConfigured'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '@/components/BackButton'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { CourseData } from '@/types/data'
@@ -14,12 +14,25 @@ const question = () => {
     const router = useRouter();
     const [questionIndex, setQuestionIndex] = useState(0);
     const {courseName}: {courseName: string} = useLocalSearchParams();
-    const [selectedAnswer, setSelectedAnswer] = useState<undefined | number>(undefined);
-    const [showPopup, setShowPopup] = useState(false);
     const course: CourseData | undefined = coursesData.find(course => course.title == courseName)
+    const [selectedAnswer, setSelectedAnswer] = useState<undefined | number>(undefined);
     const [isAnswerCorrect, setIsAnswerCorrect] = useState<undefined | boolean>(undefined);
     const [userAnswers, setUserAnswers] = useState<number[]>([]);
+    const [userAttempts, setUserAttempts] = useState([]);
+    const [timer, setTimer] = useState(60);
     const [scaleValue] = useState(new Animated.Value(1)); 
+
+    useEffect(() => {
+        if(timer == 0){
+            handleNextButton()
+            setTimer(60)
+        }
+        if(timer > 0){
+            setTimeout(() => {
+                setTimer(timer - 1)
+            }, 1000)
+        }
+    }, [timer])
 
     const handlePressIn = () => {
         Animated.spring(scaleValue, {
@@ -55,6 +68,7 @@ const question = () => {
                 setUserAnswers([])
                 handleNextButton()
             }, 1000)
+            setTimer(60)
         } else {
             setSelectedAnswer(undefined)
             setIsAnswerCorrect(false)
@@ -62,6 +76,7 @@ const question = () => {
                 setUserAnswers([...userAnswers, selectedAnswer])
             }, 1000)
         }
+
         setTimeout(() => {
             setIsAnswerCorrect(undefined)
         }, 1000)
@@ -83,7 +98,7 @@ const question = () => {
 
     const handleNextButton = () => {
         if (questionIndex + 1 == course?.questionPages.length){
-          router.push({pathname: `/[courseName]/info`, params: { courseName }})
+          router.push({pathname: `/[courseName]/summary`, params: { courseName }})
         } else {
           console.log("GSGSGG")
           setQuestionIndex(questionIndex + 1)
@@ -99,6 +114,12 @@ const question = () => {
                     className="text-3xl font-pbold ml-5 text-center text-primary mt-6" 
                 >
                     {course?.questionPages[questionIndex].title}
+                </MotiTextConfigured>
+                <MotiTextConfigured
+                    animationDelay={0}
+                    className="text-3xl font-pbold text-center text-primary" 
+                >
+                    {timer}
                 </MotiTextConfigured>
                 <MotiViewConfigured animationDelay={200} className='w-full'>
                     <Image source={course?.questionPages[questionIndex].image} className='w-full h-80' style={{resizeMode: "contain"}}/>
