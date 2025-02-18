@@ -3,7 +3,7 @@ import { ImageSourcePropType } from "react-native";
 type Setter<T> = React.Dispatch<React.SetStateAction<T>>;
 
 export type UserCoursesData = {
-    [deviceId: string]: { [courseTitle: string]: number}
+     [courseTitle: string]: number 
 }
 
 export type informationPageData = {
@@ -11,6 +11,7 @@ export type informationPageData = {
     title: string
     image: ImageSourcePropType
 }
+
 
 export type questionPageData = {
     title: string

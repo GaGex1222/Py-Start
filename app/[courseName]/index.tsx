@@ -7,6 +7,7 @@ import {MotiTextConfigured, MotiViewConfigured} from "@/components/MotiElementsC
 import BackButton from "@/components/BackButton";
 import { CourseData } from "@/types/data";
 import { coursesData } from "@/courseData";
+import { addCourseProgress } from "@/utils/asyncStorageFunctions";
 
 export default function CourseMainPage(){
     const {courseName}: {courseName: string} = useLocalSearchParams();
@@ -50,7 +51,7 @@ export default function CourseMainPage(){
             <CustomButton
                 text="Get Started"
                 Icon={RightArrowIcon}
-                handlePress={() => router.push({pathname: `/[courseName]/info`, params: {courseName}})}
+                handlePress={async () => {router.push({pathname: `/[courseName]/info`, params: {courseName}}); await addCourseProgress(course?.title as string, 1)}}
                 buttonStyles="py-3 px-6"
             />
             </MotiViewConfigured>

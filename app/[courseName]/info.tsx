@@ -6,6 +6,7 @@ import { RightArrowIcon } from '@/components/icons/Arrow'
 import CustomButton from '@/components/CustomButton'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { coursesData } from '@/courseData'
+import { addCourseProgress } from '@/utils/asyncStorageFunctions'
 
 const InformationPage = () => {
     const {courseName}: {courseName: string}= useLocalSearchParams();
@@ -20,8 +21,9 @@ const InformationPage = () => {
       }
     }
 
-    const handleNextButton = () => {
+    const handleNextButton = async () => {
       if (pageIndex + 1 == course?.informationPages.length){
+        await addCourseProgress(course?.title as string, 2)
         router.push({pathname: `/[courseName]/question`, params: { courseName }})
       } else {
         console.log("GSGSGG")

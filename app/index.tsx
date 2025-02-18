@@ -23,11 +23,13 @@ export default function WelcomeScreen() {
         await SplashScreen.hideAsync();
         setIsLoading(false);
       }, 2000);
-      checkFirstTime()
+      const isFirstTime = await checkFirstTime()
+      if(isFirstTime){
+        router.push('/(tabs)/courses')
+      }
     }
     prepare();
   }, []);
-
 
   if (!isLoading) {
     return (

@@ -7,6 +7,7 @@ import { CourseData } from '@/types/data'
 import { coursesData } from '@/courseData'
 import CustomButton from '@/components/CustomButton'
 import { RightArrowIcon } from '@/components/icons/Arrow'
+import { addCourseProgress } from '@/utils/asyncStorageFunctions'
 
 
 
@@ -18,20 +19,19 @@ const question = () => {
     const [selectedAnswer, setSelectedAnswer] = useState<undefined | number>(undefined);
     const [isAnswerCorrect, setIsAnswerCorrect] = useState<undefined | boolean>(undefined);
     const [userAnswers, setUserAnswers] = useState<number[]>([]);
-    const [userAttempts, setUserAttempts] = useState([]);
     const [timer, setTimer] = useState(60);
     const [scaleValue] = useState(new Animated.Value(1)); 
 
     useEffect(() => {
         if(timer == 0){
             handleNextButton()
-            setTimer(60)
         }
-        if(timer > 0){
-            setTimeout(() => {
-                setTimer(timer - 1)
-            }, 1000)
-        }
+
+        const interval = setInterval(() => {
+            setTimer((prevTimer) => prevTimer - 1);
+        }, 1000);
+    
+        return () => clearInterval(interval); 
     }, [timer])
 
     const handlePressIn = () => {
@@ -56,12 +56,12 @@ const question = () => {
         setSelectedAnswer(index)
     }
 
-    const handleQuestionSubmit = () => {
+    const handleQuestionSubmit = async () => {
         if(selectedAnswer == undefined){
             return
         }
 
-        if(selectedAnswer == course?.questionPages[questionIndex].correctAnswerIndex){
+        if(selectedAnswer == course?.questionPages[questionIndex].correctAnswerIndex){ //if he is correct
             setSelectedAnswer(undefined)
             setIsAnswerCorrect(true)
             setTimeout(() => {
@@ -88,6 +88,7 @@ const question = () => {
         } else {
             router.push({pathname: `/[courseName]/info`, params: { courseName }})
         }
+        
     }
 
     const getQuestionOptionColors = (index: number) => {
@@ -96,12 +97,13 @@ const question = () => {
         return isAnswerCorrect ? "bg-success border-success" : "bg-error border-error";
     };
 
-    const handleNextButton = () => {
+    const handleNextButton = async () => {
         if (questionIndex + 1 == course?.questionPages.length){
+          await addCourseProgress(courseName, 3)  
           router.push({pathname: `/[courseName]/summary`, params: { courseName }})
         } else {
-          console.log("GSGSGG")
           setQuestionIndex(questionIndex + 1)
+          setTimer(60)
         }
     }
 

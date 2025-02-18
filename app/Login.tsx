@@ -10,6 +10,7 @@ import InputField from "@/components/InputField";
 import { useRouter } from "expo-router";
 import { RightArrowIcon } from "@/components/icons/Arrow";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createUserData } from "@/utils/asyncStorageFunctions";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -17,7 +18,7 @@ export default function Login() {
   const router = useRouter();
   const handleSubmitButton = async () => {
     setLoading(true)
-    await AsyncStorage.setItem('username', username)
+    await createUserData(username)
     setLoading(false)
     router.push('/(tabs)/courses')
   }

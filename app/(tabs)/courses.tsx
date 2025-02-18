@@ -7,23 +7,49 @@ import {
   Platform,
   ScrollView,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import {
   MotiTextConfigured,
   MotiViewConfigured,
-} from "@/components/MotiElementsConfigured";
-import {icons} from "@/constants/icons";
+} from "@/components/MotiElementsConfigured"
 import * as Progress from "react-native-progress";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { coursesData } from "@/courseData";
-import { CourseData } from "@/types/data";
+import { CourseData, UserCoursesData } from "@/types/data";
+import { getUserCoursesData } from "@/utils/asyncStorageFunctions";
 
 export default function CoursesPage() {
   const [courseSearch, setCourseSearch] = useState("");
+  const router = useRouter();
+  const [userData, setUserData] = useState<UserCoursesData>({});
   useEffect(() => {
-    console.log(courseSearch);
-  }, [courseSearch]);
+    const getUserData = async () => {
+      const userData: UserCoursesData = JSON.parse(await getUserCoursesData() as string)
+      setUserData(userData)
+      console.log(userData)
+    }
+    getUserData()
+  }, []);
+
+  const handleCourseClick = (courseName: string) => {
+    const userCourseProgression = userData[courseName]
+    if(userCourseProgression == 0){
+      router.push(`/${courseName}`)
+    } else if(userCourseProgression == 1){
+      router.push({pathname: `/[courseName]/info`, params: { courseName }})
+    } else if(userCourseProgression == 2){
+      router.push({pathname: `/[courseName]/question`, params: { courseName }})
+    }
+  }
+
+  {!userData && (
+    <View className="flex justify-center items-center">
+      <Text className="text-error text-3xl text-center">Cant get user data</Text>
+    </View>
+  )}
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -64,42 +90,31 @@ export default function CoursesPage() {
 
         <View className="h-[73%] bg-white rounded-t-3xl p-5 shadow-lg -mt-5">
           <ScrollView showsVerticalScrollIndicator={false}>
-            {coursesData.map(
-              (course: CourseData, index: number) =>
-                (courseSearch === "" ||
-                  course.title
-                    .toLowerCase()
-                    .includes(courseSearch.toLowerCase())) && (
-                  <MotiViewConfigured
-                    animationDelay={index * 100}
-                    key={index}
-                    className="flex-row items-center justify-start bg-gray-100 p-3 h-20 rounded-xl mb-3 shadow-sm"
-                  >
-                    <Image
-                      source={
-                        course.topicIcon
-                      }
-                      className="w-10 h-10"
-                    />
+            {coursesData.map((course: CourseData, index: number) => {
+              const userProgress = userData[course.title] || 0;
+              const progress = userProgress / 3;
+              const isCompleted = progress >= 1;
 
-                    <View className="ml-3 flex-1">
-                      <Link
-                        href={`/${course.title}`}
-                      >
-                        <Text className="text-lg text-primary font-pbold">
-                          {course.title}
-                        </Text>
-                        <Progress.Bar
-                          progress={0.5}
-                          className="mt-2"
-                          color="#4584b6"
-                          width={250}
-                        />
-                      </Link>
-                    </View>
-                  </MotiViewConfigured>
-                )
-            )}
+              return (courseSearch === "" || course.title.toLowerCase().includes(courseSearch.toLowerCase())) && (
+                <MotiViewConfigured
+                  animationDelay={index * 100}
+                  key={index}
+                  className={`flex-row items-center justify-start p-3 h-20 rounded-xl mb-3 shadow-sm
+                    ${isCompleted ? "bg-green-200 opacity-80" : "bg-gray-100"}`}
+                >
+                  <Image source={course.topicIcon} className="w-10 h-10" />
+
+                  <View className="ml-3 flex-1">
+                    <TouchableOpacity onPress={() => handleCourseClick(course.title)}>
+                      <Text className={`text-lg font-pbold ${isCompleted ? "text-green-700" : "text-primary"}`}>
+                        {course.title} {isCompleted && "✓"}
+                      </Text>
+                      <Progress.Bar progress={progress} className="mt-2" color={isCompleted ? "#4CAF50" : "#4584b6"} width={250} />
+                    </TouchableOpacity>
+                  </View>
+                </MotiViewConfigured>
+              );
+            })}
           </ScrollView>
         </View>
       </View>
