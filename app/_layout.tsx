@@ -1,7 +1,8 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Slot, Stack } from 'expo-router'
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from "@expo-google-fonts/poppins";
+import { coursesData } from '@/courseData';
 
 const _layout = () => {
     const [fontsLoaded, error] = useFonts({

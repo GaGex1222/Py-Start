@@ -16,7 +16,6 @@ expo-env.d.ts
 *.p12
 *.key
 *.mobileprovision
-courseData.ts
 
 # Metro
 .metro-health-check*

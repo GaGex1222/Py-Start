@@ -1,47 +1,44 @@
-import { View, Text, Image, Pressable, Animated } from 'react-native'
-import { MotiViewConfigured, MotiTextConfigured } from '@/components/MotiElementsConfigured'
-import React, { useEffect, useState } from 'react'
-import BackButton from '@/components/BackButton'
-import { useLocalSearchParams, useRouter } from 'expo-router'
-import { CourseData } from '@/types/data'
-import { coursesData } from '@/courseData'
-import CustomButton from '@/components/CustomButton'
-import { RightArrowIcon } from '@/components/icons/Arrow'
-import { addCourseProgress } from '@/utils/asyncStorageFunctions'
-
-
+import { View, Text, Pressable, Animated, ScrollView } from 'react-native';
+import { MotiViewConfigured, MotiTextConfigured } from '@/components/MotiElementsConfigured';
+import React, { useEffect, useState } from 'react';
+import BackButton from '@/components/BackButton';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { CourseData } from '@/types/data';
+import { coursesData } from '@/courseData';
+import CustomButton from '@/components/CustomButton';
+import { RightArrowIcon } from '@/components/icons/Arrow';
+import { addCourseProgress } from '@/utils/asyncStorageFunctions';
 
 const question = () => {
     const router = useRouter();
     const [questionIndex, setQuestionIndex] = useState(0);
-    const {courseName}: {courseName: string} = useLocalSearchParams();
-    const course: CourseData | undefined = coursesData.find(course => course.title == courseName)
+    const { courseName }: { courseName: string } = useLocalSearchParams();
+    const course: CourseData | undefined = coursesData.find(course => course.title == courseName);
     const [selectedAnswer, setSelectedAnswer] = useState<undefined | number>(undefined);
     const [isAnswerCorrect, setIsAnswerCorrect] = useState<undefined | boolean>(undefined);
     const [userAnswers, setUserAnswers] = useState<number[]>([]);
     const [timer, setTimer] = useState(60);
-    const [scaleValue] = useState(new Animated.Value(1)); 
+    const [scaleValue] = useState(new Animated.Value(1));
 
     useEffect(() => {
-        if(timer == 0){
-            handleNextButton()
+        if (timer == 0) {
+            handleNextButton();
         }
 
         const interval = setInterval(() => {
             setTimer((prevTimer) => prevTimer - 1);
         }, 1000);
-    
-        return () => clearInterval(interval); 
-    }, [timer])
+
+        return () => clearInterval(interval);
+    }, [timer]);
 
     const handlePressIn = () => {
         Animated.spring(scaleValue, {
-            toValue: 0.95, 
+            toValue: 0.95,
             useNativeDriver: true,
         }).start();
     };
 
-  
     const handlePressOut = () => {
         Animated.spring(scaleValue, {
             toValue: 1,
@@ -50,61 +47,65 @@ const question = () => {
     };
 
     const handleSelectOption = (index: number) => {
-        if(userAnswers.includes(index)){
-            return
+        if (userAnswers.includes(index)) {
+            return;
         }
-        setSelectedAnswer(index)
-    }
+        setSelectedAnswer(index);
+    };
 
     const handleQuestionSubmit = async () => {
-        if(selectedAnswer == undefined){
-            return
+        if (selectedAnswer == undefined) {
+            return;
         }
 
-        if(selectedAnswer == course?.questionPages[questionIndex].correctAnswerIndex){ //if he is correct
-            setSelectedAnswer(undefined)
-            setIsAnswerCorrect(true)
+        if (selectedAnswer == course?.questionPages?.[questionIndex]?.correctAnswerIndex) { // If the answer is correct
+            setSelectedAnswer(undefined);
+            setIsAnswerCorrect(true);
             setTimeout(() => {
-                setUserAnswers([])
-                handleNextButton()
-            }, 1000)
-            setTimer(60)
+                setUserAnswers([]);
+                handleNextButton();
+            }, 1000);
+            setTimer(60);
         } else {
-            setSelectedAnswer(undefined)
-            setIsAnswerCorrect(false)
+            setSelectedAnswer(undefined);
+            setIsAnswerCorrect(false);
             setTimeout(() => {
-                setUserAnswers([...userAnswers, selectedAnswer])
-            }, 1000)
+                setUserAnswers([...userAnswers, selectedAnswer]);
+            }, 1000);
         }
 
         setTimeout(() => {
-            setIsAnswerCorrect(undefined)
-        }, 1000)
-    }
+            setIsAnswerCorrect(undefined);
+        }, 1000);
+    };
 
     const handleBackButton = () => {
-        if (questionIndex > 0){
-          setQuestionIndex(questionIndex - 1)
+        if (questionIndex > 0) {
+            setQuestionIndex(questionIndex - 1);
         } else {
-            router.push({pathname: `/[courseName]/info`, params: { courseName }})
+            router.push({ pathname: `/[courseName]/info`, params: { courseName } });
         }
-        
-    }
+    };
 
     const getQuestionOptionColors = (index: number) => {
-        if(userAnswers.includes(index)) return "bg-secondary opacity-50";
+        if (userAnswers.includes(index)) return "bg-secondary opacity-50";
         if (isAnswerCorrect === undefined) return "bg-secondary";
         return isAnswerCorrect ? "bg-success border-success" : "bg-error border-error";
     };
 
     const handleNextButton = async () => {
-        if (questionIndex + 1 == course?.questionPages.length){
-          await addCourseProgress(courseName, 3)  
-          router.push({pathname: `/[courseName]/summary`, params: { courseName }})
+        if (questionIndex + 1 === course?.questionPages?.length) {
+            await addCourseProgress(courseName, 3);
+            router.push({ pathname: `/[courseName]/summary`, params: { courseName } });
         } else {
-          setQuestionIndex(questionIndex + 1)
-          setTimer(60)
+            setQuestionIndex(questionIndex + 1);
+            setTimer(60);
         }
+    };
+
+    if (!course || !course.questionPages || course.questionPages.length === 0) {
+        // Handle the case where the course or questionPages is undefined or empty
+        return <Text className="text-red-500">Course or question data is missing</Text>;
     }
 
     return (
@@ -113,35 +114,39 @@ const question = () => {
                 <BackButton handlePress={handleBackButton} />
                 <MotiTextConfigured
                     animationDelay={0}
-                    className="text-3xl font-pbold ml-5 text-center text-primary mt-6" 
+                    className="text-3xl font-pbold ml-5 text-center text-primary mt-6"
                 >
-                    {course?.questionPages[questionIndex].title}
+                    {course.questionPages[questionIndex]?.title}
                 </MotiTextConfigured>
                 <MotiTextConfigured
                     animationDelay={0}
-                    className="text-3xl font-pbold text-center text-primary" 
+                    className="text-3xl font-pbold text-center text-primary"
                 >
                     {timer}
                 </MotiTextConfigured>
-                <MotiViewConfigured animationDelay={200} className='w-full'>
-                    <Image source={course?.questionPages[questionIndex].image} className='w-full h-80' style={{resizeMode: "contain"}}/>
+                <MotiViewConfigured className="w-full max-h-64 my-4 p-3 bg-gray-200 rounded-lg" animationDelay={100}>
+                    <ScrollView>
+                        <Text className="font-mono text-sm text-gray-800">
+                            {course.questionPages[questionIndex]?.code}
+                        </Text>
+                    </ScrollView>
                 </MotiViewConfigured>
             </View>
             <View className="flex-1 p-7 justify-end">
                 <View className="grid grid-rows-2 grid-cols-2 gap-4 w-full max-w-sm">
-                    {course?.questionPages[questionIndex].options.map((option, index) => (
+                    {course.questionPages[questionIndex]?.options.map((option, index) => (
                         <MotiViewConfigured animationDelay={(index + 1) * 100 + 200} key={index}>
                             <Pressable
                                 disabled={userAnswers.includes(index)}
                                 onPressIn={handlePressIn}
                                 onPressOut={handlePressOut}
-                                onPress={() => handleSelectOption(index)} 
+                                onPress={() => handleSelectOption(index)}
                             >
                                 <Animated.View
                                     style={{
                                         transform: [{ scale: scaleValue }],
                                     }}
-                                    className={`shadow-md h-20 border-2 rounded-lg justify-center items-center ${getQuestionOptionColors(index)} ${selectedAnswer == index ? "border-primary" : "border-secondary"}`}
+                                    className={`shadow-md h-20 border-2 rounded-lg justify-center items-center ${getQuestionOptionColors(index)} ${selectedAnswer === index ? "border-primary" : "border-secondary"}`}
                                 >
                                     <Text className="text-primary font-pbold text-lg p-3">
                                         {option}
@@ -157,7 +162,7 @@ const question = () => {
                 </MotiViewConfigured>
             </View>
         </>
-    )
-}
+    );
+};
 
-export default question
+export default question;

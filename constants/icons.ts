@@ -22,5 +22,12 @@ export const icons = {
   inputs: require('@/assets/images/inputs.png'),
   arrays: require('@/assets/images/arrays.png'),
   libraries: require('@/assets/images/libraries.png'),
+  string: require('@/assets/images/string.png'),
+  oop: require("@/assets/images/oop.png"),
+  tryExcept: require("@/assets/images/try-except.png"),
+  ifStatements: require("@/assets/images/try-except.png"),
+  decorators: require("@/assets/images/decorators.png"),
+  files: require("@/assets/images/files.png"),
+  api: require("@/assets/images/api.png")
 }
 

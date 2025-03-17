@@ -9,13 +9,13 @@ export type UserCoursesData = {
 export type informationPageData = {
     infoParagraph: string
     title: string
-    image: ImageSourcePropType
+    code: string
 }
 
 
 export type questionPageData = {
     title: string
-    image: ImageSourcePropType | undefined
+    code: string
     options: [string, string, string, string]
     correctAnswerIndex: number
 }
@@ -26,7 +26,7 @@ export type CourseData = {
     title: string;
     description: string;
     topicIcon: ImageSourcePropType
-    informationPages: informationPageData[]
-    questionPages: questionPageData[]
+    informationPages?: informationPageData[]
+    questionPages?: questionPageData[]
 };
   

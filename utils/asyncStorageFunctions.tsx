@@ -22,19 +22,31 @@ export const createUserData = async (username: string) => {
 
 export const addCourseProgress = async (courseTitle: string, progress: number) => {
     const jsonValue = await AsyncStorage.getItem('userCoursesData');
-    console.log("HII", jsonValue)
     const userCoursesData = JSON.parse(jsonValue as string);
-    console.log(courseTitle)
-    console.log("HIssssI", userCoursesData)
+    if(userCoursesData[courseTitle] == 3){
+        return
+    }
     userCoursesData[courseTitle] = progress;
     await AsyncStorage.setItem("userCoursesData", JSON.stringify(userCoursesData));
     console.log("Updated value:", userCoursesData[courseTitle]);
 }
 
 export const getUserCoursesData = async () => {
+    console.log("NOW GETGTING USER DATA")
     return await AsyncStorage.getItem('userCoursesData')
 }
 
 export const getUsername = async () => {
     return await AsyncStorage.getItem('username')
+}
+
+export const addNonExistentCourse = async (courseName: string) => {
+    const jsonValue = await AsyncStorage.getItem('userCoursesData');
+    const userCoursesData = JSON.parse(jsonValue as string) || {};
+    userCoursesData[courseName] = 0;
+    await AsyncStorage.setItem("userCoursesData", JSON.stringify(userCoursesData));
+}
+
+export const deleteUserData = async () => {
+    await AsyncStorage.clear()
 }

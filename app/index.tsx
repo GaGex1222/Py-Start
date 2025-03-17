@@ -68,7 +68,7 @@ export default function WelcomeScreen() {
               Icon={RightArrowIcon}
               buttonStyles="mt-6"
               isLoading={isLoading}
-              handlePress={() => router.replace("/login")}
+              handlePress={() => router.push("/login")}
             />
           </MotiViewConfigured>
         </View>

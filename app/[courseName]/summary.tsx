@@ -7,6 +7,7 @@ import { MotiTextConfigured, MotiViewConfigured } from '@/components/MotiElement
 import { images } from '@/constants/icons'
 import * as Progress from "react-native-progress";
 import CustomButton from '@/components/CustomButton'
+import { RightArrowIcon } from '@/components/icons/Arrow'
 const Summary = () => {
     const router = useRouter();
     const {courseName}: {courseName: string} = useLocalSearchParams();
@@ -25,7 +26,6 @@ const Summary = () => {
                 Keep practicing and check out more courses to expand your skills.
             </MotiTextConfigured>
 
-            {/* Progress Summary */}
             <MotiViewConfigured animationDelay={200} className="w-full px-5 mt-5">
                 <View className="bg-white p-4 rounded-xl shadow-lg w-full">
                     <Text className="text-xl font-pbold text-center text-primary">Your Progress</Text>
@@ -34,14 +34,14 @@ const Summary = () => {
                 </View>
             </MotiViewConfigured>
 
-            {/* Next Steps */}
             <MotiViewConfigured animationDelay={300} className="w-full px-5 mt-5">
                 <Text className="text-lg font-pbold text-gray-700 text-center">
                     What’s Next?
                 </Text>
-                <View className="flex-row justify-center mt-3">
-                    <CustomButton text='Explore More Courses' handlePress={() => router.push('/courses')}/>
-                </View>
+                <MotiViewConfigured animationDelay={400} className="flex-col justify-center mt-3">
+                    <CustomButton Icon={RightArrowIcon} text='Explore More Courses' handlePress={() => router.push('/courses')}/>
+                    <CustomButton Icon={RightArrowIcon} text='Retry course!' buttonStyles='mt-3' handlePress={() => router.push({pathname: `/[courseName]`, params: { courseName }})}/>
+                </MotiViewConfigured>
             </MotiViewConfigured>
         </View>
     )

@@ -18,7 +18,7 @@ import * as Progress from "react-native-progress";
 import { Link, useRouter } from "expo-router";
 import { coursesData } from "@/courseData";
 import { CourseData, UserCoursesData } from "@/types/data";
-import { getUserCoursesData } from "@/utils/asyncStorageFunctions";
+import { addNonExistentCourse, getUserCoursesData } from "@/utils/asyncStorageFunctions";
 
 export default function CoursesPage() {
   const [courseSearch, setCourseSearch] = useState("");
@@ -34,13 +34,21 @@ export default function CoursesPage() {
   }, []);
 
   const handleCourseClick = (courseName: string) => {
-    const userCourseProgression = userData[courseName]
+    console.log(courseName)
+    const userCourseProgression = userData?.[courseName]
+    if(!userCourseProgression){
+      console.log("ADDEDDDD")
+      addNonExistentCourse(courseName)
+    }
+    console.log(userCourseProgression)
     if(userCourseProgression == 0){
       router.push(`/${courseName}`)
     } else if(userCourseProgression == 1){
       router.push({pathname: `/[courseName]/info`, params: { courseName }})
     } else if(userCourseProgression == 2){
       router.push({pathname: `/[courseName]/question`, params: { courseName }})
+    } else if(userCourseProgression == 3){
+      router.push({pathname: `/[courseName]/summary`, params: { courseName }})
     }
   }
 
@@ -51,6 +59,7 @@ export default function CoursesPage() {
   )}
 
   return (
+    
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}

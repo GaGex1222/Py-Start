@@ -12,11 +12,15 @@ import { RightArrowIcon } from "@/components/icons/Arrow";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createUserData } from "@/utils/asyncStorageFunctions";
 
-export default function Login() {
+export default function login() {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  useEffect(() => {
+    console.log("got to login, nmounted")
+  }, [])
   const handleSubmitButton = async () => {
+    console.log("LOGIN PResED")
     setLoading(true)
     await createUserData(username)
     setLoading(false)
