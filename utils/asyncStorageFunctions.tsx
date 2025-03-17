@@ -16,6 +16,7 @@ export const createUserData = async (username: string) => {
     coursesData.map((item: CourseData) => {
         coursesTitles[item.title] = 0
     })
+    await AsyncStorage.setItem("userCurrentCourse", "0")
     await AsyncStorage.setItem('username', username)
     await AsyncStorage.setItem('userCoursesData', JSON.stringify(coursesTitles))
 }
@@ -49,4 +50,13 @@ export const addNonExistentCourse = async (courseName: string) => {
 
 export const deleteUserData = async () => {
     await AsyncStorage.clear()
+    console.log("Cleaned user data!")
+}
+
+export const getUserCurrentCourse = async () => {
+   return await AsyncStorage.getItem("userCurrentCourse")
+}
+
+export const setUserCurrentCourse = async (currentCourse: string) => {
+    await AsyncStorage.setItem("userCurrentCourse", currentCourse)
 }

@@ -154,7 +154,7 @@ export const coursesData: CourseData[] = [
                 correctAnswerIndex: 0,
             },
             {
-                title: "What will be the output of the following code?\n\nx = 7\nif x < 10:\n    print('x is less than 10')\nelse:\n    print('x is 10 or more')",
+                title: "What will be the output of the following code?",
                 code: "x = 7\nif x < 10:\n    print('x is less than 10')\nelse:\n    print('x is 10 or more')",
                 options: ["x is less than 10", "x is 10 or more", "Error", "None of the above"],
                 correctAnswerIndex: 0,
@@ -166,7 +166,7 @@ export const coursesData: CourseData[] = [
                 correctAnswerIndex: 0,
             },
             {
-                title: "What is the result of the following nested if statement?\n\nx = 10\nif x > 5:\n    if x < 15:\n        print('x is between 5 and 15')\nelse:\n    print('x is 5 or less')",
+                title: "What is the result of the following nested if statement?",
                 code: "x = 10\nif x > 5:\n    if x < 15:\n        print('x is between 5 and 15')\nelse:\n    print('x is 5 or less')",
                 options: ["x is between 5 and 15", "x is 5 or less", "Error", "None of the above"],
                 correctAnswerIndex: 0,
@@ -556,8 +556,8 @@ export const coursesData: CourseData[] = [
                 correctAnswerIndex: 0,
             },
             {
-                title: "What is the result of the following code?\n\npoint1 = Point(1, 2)\npoint2 = Point(3, 4)\nresult = point1 + point2\nprint(result.x, result.y)",
-                code: "point1 = Point(1, 2)\npoint2 = Point(3, 4)\nresult = point1 + point2\nprint(result.x, result.y)",
+                title: "What is the result of the following code?",
+                code: "class Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __add__(self, other):\n        return Point(self.x + other.x, self.y + other.y)\n\npoint1 = Point(1, 2)\npoint2 = Point(3, 4)\nresult = point1 + point2\nprint(result.x, result.y)  # Output: 4 6",
                 options: ["4 6", "1 2", "3 4", "None of the above"],
                 correctAnswerIndex: 0,
             }
@@ -594,7 +594,7 @@ export const coursesData: CourseData[] = [
                 correctAnswerIndex: 0,
             },
             {
-                title: "What will be the output of the following code?\n\n@decorator_function\ndef say_hello():\n    print('Hello!')\nsay_hello()",
+                title: "What will be the output of the following code?",
                 code: "@decorator_function\ndef say_hello():\n    print('Hello!')\nsay_hello()",
                 options: ["Before function call\nHello!\nAfter function call", "Hello!\nBefore function call\nAfter function call", "Error", "None of the above"],
                 correctAnswerIndex: 0,

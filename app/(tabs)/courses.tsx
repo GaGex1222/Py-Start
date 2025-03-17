@@ -18,15 +18,17 @@ import * as Progress from "react-native-progress";
 import { Link, useRouter } from "expo-router";
 import { coursesData } from "@/courseData";
 import { CourseData, UserCoursesData } from "@/types/data";
-import { addNonExistentCourse, getUserCoursesData } from "@/utils/asyncStorageFunctions";
+import { addNonExistentCourse, getUserCoursesData, getUserCurrentCourse } from "@/utils/asyncStorageFunctions";
 
 export default function CoursesPage() {
   const [courseSearch, setCourseSearch] = useState("");
+  const [userCurrentCourse, setUserCurrentCourse] = useState(0);
   const router = useRouter();
   const [userData, setUserData] = useState<UserCoursesData>({});
   useEffect(() => {
     const getUserData = async () => {
       const userData: UserCoursesData = JSON.parse(await getUserCoursesData() as string)
+      setUserCurrentCourse(parseInt(await getUserCurrentCourse() as string))
       setUserData(userData)
       console.log(userData)
     }
@@ -99,31 +101,32 @@ export default function CoursesPage() {
 
         <View className="h-[73%] bg-white rounded-t-3xl p-5 shadow-lg -mt-5">
           <ScrollView showsVerticalScrollIndicator={false}>
-            {coursesData.map((course: CourseData, index: number) => {
-              const userProgress = userData[course.title] || 0;
-              const progress = userProgress / 3;
-              const isCompleted = progress >= 1;
+          {coursesData.map((course: CourseData, index: number) => {
+            const userProgress = userData[course.title] || 0;
+            const progress = userProgress / 3;
+            const isCompleted = progress >= 1;
+            const isLocked = userCurrentCourse + 1 < index; // Check if the course is locked
 
-              return (courseSearch === "" || course.title.toLowerCase().includes(courseSearch.toLowerCase())) && (
-                <MotiViewConfigured
-                  animationDelay={index * 100}
-                  key={index}
-                  className={`flex-row items-center justify-start p-3 h-20 rounded-xl mb-3 shadow-sm
-                    ${isCompleted ? "bg-green-200 opacity-80" : "bg-gray-100"}`}
-                >
-                  <Image source={course.topicIcon} className="w-10 h-10" />
+            return (courseSearch === "" || course.title.toLowerCase().includes(courseSearch.toLowerCase())) && (
+              <MotiViewConfigured
+                animationDelay={index * 100}
+                key={index}
+                className={`flex-row items-center justify-start p-3 h-20 rounded-xl mb-3 shadow-sm 
+                  ${isCompleted ? "bg-green-200 opacity-80" : isLocked ? "bg-gray-300 opacity-50" : "bg-gray-100"}`}
+              >
+                <Image source={course.topicIcon} className="w-10 h-10 opacity-${isLocked ? 50 : 100}" />
 
-                  <View className="ml-3 flex-1">
-                    <TouchableOpacity onPress={() => handleCourseClick(course.title)}>
-                      <Text className={`text-lg font-pbold ${isCompleted ? "text-green-700" : "text-primary"}`}>
-                        {course.title} {isCompleted && "✓"}
-                      </Text>
-                      <Progress.Bar progress={progress} className="mt-2" color={isCompleted ? "#4CAF50" : "#4584b6"} width={250} />
-                    </TouchableOpacity>
-                  </View>
-                </MotiViewConfigured>
-              );
-            })}
+                <View className="ml-3 flex-1">
+                  <TouchableOpacity onPress={() => !isLocked && handleCourseClick(course.title)} disabled={isLocked}>
+                    <Text className={`text-lg font-pbold ${isCompleted ? "text-green-700" : isLocked ? "text-gray-500" : "text-primary"}`}>
+                      {course.title} {isCompleted && "✓"} {isLocked && "🔒"}
+                    </Text>
+                    <Progress.Bar progress={progress} className="mt-2" color={isCompleted ? "#4CAF50" : isLocked ? "#999" : "#4584b6"} width={250} />
+                  </TouchableOpacity>
+                </View>
+              </MotiViewConfigured>
+            );
+          })}
           </ScrollView>
         </View>
       </View>

@@ -7,7 +7,7 @@ import { CourseData } from '@/types/data';
 import { coursesData } from '@/courseData';
 import CustomButton from '@/components/CustomButton';
 import { RightArrowIcon } from '@/components/icons/Arrow';
-import { addCourseProgress } from '@/utils/asyncStorageFunctions';
+import { addCourseProgress, getUserCoursesData, getUserCurrentCourse, setUserCurrentCourse } from '@/utils/asyncStorageFunctions';
 
 const question = () => {
     const router = useRouter();
@@ -96,6 +96,15 @@ const question = () => {
     const handleNextButton = async () => {
         if (questionIndex + 1 === course?.questionPages?.length) {
             await addCourseProgress(courseName, 3);
+            const currentCourseIndex = coursesData.findIndex(course => course.title === courseName);
+            const currentUserCourseIndex = await getUserCurrentCourse() as string
+            console.log(currentCourseIndex)
+            console.log(currentUserCourseIndex)
+            if (parseInt(currentUserCourseIndex) == currentCourseIndex){
+                await setUserCurrentCourse((currentCourseIndex + 1).toString())
+            } else if (parseInt(currentUserCourseIndex) == currentCourseIndex - 1){
+                await setUserCurrentCourse((currentCourseIndex).toString())
+            }
             router.push({ pathname: `/[courseName]/summary`, params: { courseName } });
         } else {
             setQuestionIndex(questionIndex + 1);
@@ -146,12 +155,12 @@ const question = () => {
                                     style={{
                                         transform: [{ scale: scaleValue }],
                                     }}
-                                    className={`shadow-md h-20 border-2 rounded-lg justify-center items-center ${getQuestionOptionColors(index)} ${selectedAnswer === index ? "border-primary" : "border-secondary"}`}
+                                    className={`shadow-md h-auto min-h-20 border-2 rounded-lg justify-center items-start p-3 ${getQuestionOptionColors(index)} ${selectedAnswer === index ? "border-primary" : "border-secondary"}`}
                                 >
-                                    <Text className="text-primary font-pbold text-lg p-3">
-                                        {option}
-                                    </Text>
-                                    <Text className='absolute top-7 left-5 text-primary font-pbold'>{(index + 1).toString() + "."}</Text>
+                                    <View className="flex-row items-start">
+                                        <Text className="text-primary font-pbold mr-2">{(index + 1).toString() + "."}</Text>
+                                        <Text className="text-primary font-pbold text-lg flex-1">{option}</Text>
+                                    </View>
                                 </Animated.View>
                             </Pressable>
                         </MotiViewConfigured>
